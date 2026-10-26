@@ -19,19 +19,29 @@ const configuredOrigins = String(process.env.CORS_ORIGIN || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
+
 const productionOrigins = configuredOrigins.length
   ? configuredOrigins
   : [PRODUCTION_FRONTEND_ORIGIN];
 
 export const corsOptions = {
-  origin: configuredOrigins.length || process.env.NODE_ENV === "production"
+  origin: process.env.NODE_ENV === "production"
     ? (origin, callback) => {
-        if (!origin || productionOrigins.includes(origin)) return callback(null, true);
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        
+        // Check if origin is in allowed list
+        if (productionOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        
+        console.error(`CORS rejection: Origin '${origin}' not in allowed list:`, productionOrigins);
         return callback(new Error("Origin is not allowed by CORS."));
       }
-    : true,
+    : true, // Development: allow all origins
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
   optionsSuccessStatus: 204
 };
 
