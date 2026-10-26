@@ -1,5 +1,9 @@
 # MindScan AI — Intelligent Cognitive Assessment and Dementia Research Platform
 
+> **🚀 Deployment Ready**: This repository is prepared for deployment to Vercel (Frontend) and Render (Backend). See [DEPLOYMENT.md](DEPLOYMENT.md) for complete instructions.
+
+> **⚠️ AI Model Status**: Currently deployed without trained AI models. Cognitive assessment and task scoring work fully. AI predictions return "unavailable" status by design. See [docs/AI_WORKFLOW_VERIFICATION.md](docs/AI_WORKFLOW_VERIFICATION.md) for details.
+
 MindScan AI is a full-stack, research-oriented cognitive assessment prototype. It
 combines browser-based cognitive tasks, optional consent-driven speech
 transcription, deterministic descriptive measurements, guarded research-model
@@ -14,6 +18,8 @@ as separate concepts.
 
 ## Table of contents
 
+- [Quick Start - Deployment](#quick-start---deployment)
+- [Quick Start - Local Development](#quick-start---local-development)
 - [Project overview](#project-overview)
 - [Features and scope](#features-and-scope)
 - [Technology stack](#technology-stack)
@@ -31,6 +37,54 @@ as separate concepts.
 - [Deployment](#deployment)
 - [Limitations and future work](#limitations-and-future-work)
 - [References](#references)
+
+## Quick Start - Deployment
+
+**Deploy to production in 3 steps:**
+
+1. **Backend (Render)**:
+   - Connect this GitHub repository
+   - Set Root Directory: `Backend`
+   - Configure environment variables (see [DEPLOYMENT.md](DEPLOYMENT.md#step-2-deploy-backend-to-render))
+   
+2. **Frontend (Vercel)**:
+   - Connect this GitHub repository
+   - Set Root Directory: `Frontend`
+   - Set `VITE_API_URL` to your Render backend URL
+   
+3. **Database (MongoDB Atlas)**:
+   - Already configured - just add your connection string to Render environment variables
+
+📖 **Full deployment guide**: [DEPLOYMENT.md](DEPLOYMENT.md)
+
+## Quick Start - Local Development
+
+```powershell
+# 1. Clone repository
+git clone https://github.com/Magenta91/dimentia_detector.git
+cd dimentia_detector
+
+# 2. Backend setup
+cd Backend
+npm install
+cp .env.example .env
+# Edit .env with your MongoDB URI and JWT secret
+npm run database:init
+npm start
+
+# 3. Frontend setup (new terminal)
+cd ../Frontend
+npm install
+cp .env.example .env.local
+# VITE_API_URL=http://localhost:3001
+npm run dev
+```
+
+Access: http://localhost:5173
+
+📖 **Full local setup guide**: [DEPLOYMENT.md](DEPLOYMENT.md#local-development-setup-windows)
+
+---
 
 ## Project overview
 
